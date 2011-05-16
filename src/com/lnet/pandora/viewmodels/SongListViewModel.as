@@ -12,6 +12,7 @@ package com.lnet.pandora.viewmodels {
 	public class SongListViewModel {
 		
 		private var _songList:IList;
+		private var _currentTrack:Object;
 		private var internalList:IList;
 		
 		public function SongListViewModel() {
@@ -26,10 +27,7 @@ package com.lnet.pandora.viewmodels {
 		}
 
 		private function updateSongList(event:ApplicationEvent):void {
-			MonsterDebugger.trace("SongListViewModel::updateSongList","Updated song lists");
-			
 			internalList.addItem(event.data);
-			
 			songList = internalList as IList;
 			ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.UPDATE_SELECTED_INDEX, event.data));
 		}

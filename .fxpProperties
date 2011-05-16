@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="9b251d67-7022-4c3e-bb64-591af251b71c" projectUUID="9b251d67-7022-4c3e-bb64-591af251b71c" sdkVersion="4.0.0" uuid="95ed3513-0c95-4712-8b09-5003a7a08a38" version="4">
-  <projects>
-    <project filename="Crypto.fxpl" position="2" projectUUID="8a9195c2-50be-4072-96e8-8b8b662d0c14" uuid="95ed3513-0c95-4712-8b09-5003a7a08a38"/>
-  </projects>
+  <projects/>
   <src/>
   <swc>
+    <linked location="${DOCUMENTS}/FlashBuilderProjects/Pandora_Dan/bin/Pandora.swc" path="${DOCUMENTS}/FlashBuilderProjects/Pandora_Dan/bin/Pandora.swc" position="3" uuid="95ed3513-0c95-4712-8b09-5003a7a08a38"/>
     <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="95ed3513-0c95-4712-8b09-5003a7a08a38"/>
     <linked location="C:/Users/akiner/FlashBuilderProjects/PandoraStandalone/libs" path="/libs" position="1" uuid="95ed3513-0c95-4712-8b09-5003a7a08a38"/>
-    <linked location="${DOCUMENTS}/FlashBuilderProjects/Pandora_Dan/bin/Pandora.swc" path="${DOCUMENTS}/FlashBuilderProjects/Pandora_Dan/bin/Pandora.swc" position="3" uuid="95ed3513-0c95-4712-8b09-5003a7a08a38"/>
   </swc>
   <misc/>
   <theme/>

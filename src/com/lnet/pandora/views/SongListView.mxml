@@ -30,9 +30,8 @@
 			private function updateSelectedIndex(event:ApplicationEvent):void {
 				songList.selectedItem = event.data;
 				MonsterDebugger.trace("SongListView::updateSelectedIndex","Selected item updated");
-//				songList.ensureIndexIsVisible(songList.selectedIndex);
 			}
-
+			
 			[Bindable]
 			public function get songListViewModel():SongListViewModel {
 				return _songListViewModel;

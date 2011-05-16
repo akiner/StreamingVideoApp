@@ -1,6 +1,5 @@
 package com.lnet.pandora.utils {
 	import com.demonsters.debugger.MonsterDebugger;
-	import com.lnet.pandora.Session;
 	import com.lnet.pandora.command.auth.UserLogin;
 	import com.lnet.pandora.command.music.Search;
 	import com.lnet.pandora.command.station.CreateStation;
@@ -13,7 +12,6 @@ package com.lnet.pandora.utils {
 	import com.lnet.pandora.response.station.GetPlaylistResponse;
 	import com.lnet.pandora.response.station.supportClasses.Station;
 	import com.lnet.pandora.response.station.supportClasses.Track;
-	import com.lnet.pandora.views.SongView;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -21,7 +19,6 @@ package com.lnet.pandora.utils {
 	import flash.media.SoundChannel;
 	import flash.media.SoundLoaderContext;
 	import flash.net.URLRequest;
-	import flash.utils.setTimeout;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
@@ -48,6 +45,8 @@ package com.lnet.pandora.utils {
 			ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.PAUSE_SONG, pauseSong, false, 0, true);
 			ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.PLAY_SONG, playSong, false, 0, true);
 			ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.SELECT_STATION, setSelectedStation, false, 0, true); 
+			ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.NEW_TRACK_REQUESTED, getNextTrack, false, 0, true); 
+			ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.SONG_LIST_INITIALIZED, getInitSongListTrack, false, 0, true); 
 		}
 		
 		private function playSong(event:ApplicationEvent):void {
@@ -59,7 +58,6 @@ package com.lnet.pandora.utils {
 			MonsterDebugger.trace("Controller::pauseSong","Pause song");
 			soundPosition = soundChannelInstance.position;
 			soundChannelInstance.stop();
-			
 		}
 		
 		public function loginUser(u:String,p:String):void {
@@ -87,7 +85,7 @@ package com.lnet.pandora.utils {
 		}
 		
 		private function onUserLoginComplete( e:Event ):void {
-			userLoginRequest.removeEventListener( Event.COMPLETE, onUserLoginComplete );
+			userLoginRequest.removeEventListener(Event.COMPLETE, onUserLoginComplete);
 			ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.RESET_FOCUS));
 			getStationList();
 		}
@@ -108,7 +106,7 @@ package com.lnet.pandora.utils {
 		}
 		
 		private function onStationListFault(event:FaultEvent):void {
-			MonsterDebugger.trace("Controller::onStationListFault","Fault:: " + String( getStationListRequest.fault));
+			MonsterDebugger.trace("Controller::onStationListFault","Fault:: " + String(getStationListRequest.fault));
 		}
 		
 		private function onStationListComplete(event:Event):void {
@@ -149,8 +147,29 @@ package com.lnet.pandora.utils {
 		}
 		
 		private function onPlaylistComplete(event:Event):void {
+			MonsterDebugger.trace("Controller::onPlaylistComplete","Playlist Complete - load first track");
 			nextTrackIndex = 0;
 			playTrack(getNextTrack());
+		}
+		
+		private function getInitSongListTrack(e:Event):void {
+			playTrack(getNextTrack());
+			MonsterDebugger.trace("Controller::getInitSongListTrack","Song list initialized...getting track...");
+		}
+		
+		public function getNextTrack(e:Event=null):Track {
+			var playlist:GetPlaylistResponse = getPlaylistRequest.response;
+			var track:Track = null;
+			
+			for( var i:uint = nextTrackIndex++ ; i < playlist.items.elements.length ; i++ ) {
+				if ( ( track = playlist.items.elements[ i ] as Track ) )
+					break;
+			}
+			
+//			currentTrack = track;
+			return track;
+//			MonsterDebugger.trace("Controller::getNextTrack","Dispatching track ready event...");
+//			ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.TRACK_READY_TO_PLAY, currentTrack));
 		}
 		
 		private function playTrack( track:Track ):void {
@@ -167,6 +186,7 @@ package com.lnet.pandora.utils {
 			if( !track ) return;
 			
 			soundInstance = new Sound();
+			
 			soundInstance.addEventListener(IOErrorEvent.IO_ERROR, ioSoundError);
 			soundInstance.addEventListener(Event.COMPLETE, soundLoaded);
 			
@@ -176,20 +196,19 @@ package com.lnet.pandora.utils {
 			try {
 				soundInstance.load(req, context);
 				soundChannelInstance = soundInstance.play();
+				soundChannelInstance.addEventListener(Event.SOUND_COMPLETE, playNextSong);
 				ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.SONG_LOADED, track));
 			}
 			catch (err:Error) {
-				MonsterDebugger.trace("Controller::playTrack","err.message::"+err.message);
+				MonsterDebugger.trace("Controller::playTrack","ERROR::"+err.message);
 			}
-			
-			soundChannelInstance.addEventListener( Event.SOUND_COMPLETE, playNextSong );
-			//			soundChannelInstance.addEventListener(ProgressEvent.PROGRESS, progressHandler);
 		}
 
 		private function soundLoaded(event:Event):void {
-			MonsterDebugger.trace("Controller::soundLoaded","sound length::"+soundInstance.length/1000);
-//			MonsterDebugger.trace("Controller::soundLoaded","track length::"+currentTrack.);
-			MonsterDebugger.trace("Controller::soundLoaded","current position::"+soundChannelInstance.position/1000);
+			ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.SOUND_READY,
+				soundInstance, soundChannelInstance));
+			var currentTime:uint = Math.round(soundChannelInstance.position/1000);
+			var totalTime:uint = Math.round(soundInstance.length/1000);
 		}
 		
 		private function ioSoundError(e:IOErrorEvent):void {
@@ -199,6 +218,7 @@ package com.lnet.pandora.utils {
 		
 		public function playNextSong(e:Event=null):void {
 			playTrack(getNextTrack());
+//			ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.TRACK_SELECTED, getNextTrack());
 		}
 		
 		public function createNewStation(stationTxt:String):void {
@@ -256,20 +276,6 @@ package com.lnet.pandora.utils {
 		
 		private function onCreateStationFault(event:FaultEvent):void {
 			MonsterDebugger.trace("Controller::onCreateStationFault","Fault:: " + String( createNewStationRequest.fault));
-		}
-		
-		private function getNextTrack( ):Track {
-			var playlist:GetPlaylistResponse = getPlaylistRequest.response;
-			var track:Track = null;
-			
-			for( var i:uint = nextTrackIndex++ ; i < playlist.items.elements.length ; i++ ) {
-				if ( ( track = playlist.items.elements[ i ] as Track ) )
-					break;
-			}
-			
-			currentTrack = track;
-			
-			return track;
 		}
 		
 		public function get currentTrackPos():int {

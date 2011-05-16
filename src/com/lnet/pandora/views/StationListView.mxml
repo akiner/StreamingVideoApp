@@ -39,7 +39,6 @@
 				ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_STATION,
 					stationList.selectedItem));
 			}
-			
 		]]>
 	</fx:Script>
 	

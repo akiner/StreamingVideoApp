@@ -6,6 +6,7 @@ package com.lnet.pandora.data {
 		private var _artist:String;
 		private var _album:String;
 		private var _albumArt:String;
+		private var _totalTime:String;
 		
 		public function Song(song:Object) {
 			try{

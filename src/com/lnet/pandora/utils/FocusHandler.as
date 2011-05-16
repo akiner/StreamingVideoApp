@@ -69,6 +69,7 @@ package com.lnet.pandora.utils {
 					break;
 				case "rightArrow":
 					controller.playNextSong();
+//					controller.getNextTrack();
 					MonsterDebugger.trace("FocusHandler::handleKeyPressInDefaultView","Arrowed right");
 					break;
 				case "play":

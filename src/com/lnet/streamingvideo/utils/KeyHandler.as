@@ -18,8 +18,6 @@ package com.lnet.streamingvideo.utils {
 					keyToReturn = "leftArrow";
 					break;
 				case 13:
-					keyToReturn = "select"; // This is for keyboard nav only - not used for remote
-					break;
 				case 125:
 					keyToReturn = "select";
 					break;

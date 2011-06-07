@@ -131,7 +131,7 @@
 						break;
 					case 0:
 						MonsterDebugger.trace("PlayerView::onStateChange","The video has finished playing");
-						displayRelatedVideos();
+						loadRelatedVideos();
 						break;
 					default:
 						MonsterDebugger.trace("PlayerView::onStateChange","Didn't catch this player state::"+Object(event).data);
@@ -190,13 +190,19 @@
 				errorTxt.text = errorMsg;
 			}
 			
-			private function displayRelatedVideos():void {
-				endOfVideoOverlay.visible = true;
+			private function loadRelatedVideos():void {
 				removeEventListeners();
 				ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.RELATED_VIDEOS_REQUESTED,
 					playerViewModel.selectedVideo.relatedVideoURL));
+				ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.RELATED_VIDEOS_RETURNED, displayRelatedVideos,
+					false, 0, true);
 				relatedVideosList.selectedIndex = 0;
 				FlexGlobals.topLevelApplication.focusManager.setFocus(relatedVideosList);
+			}
+
+			private function displayRelatedVideos(event:ApplicationEvent):void {
+				ApplicationEventBus.getInstance().removeEventListener(ApplicationEvent.RELATED_VIDEOS_RETURNED, displayRelatedVideos);
+				endOfVideoOverlay.visible = true;
 			}
 			
 			private function formatVideoTime(time:String):String {

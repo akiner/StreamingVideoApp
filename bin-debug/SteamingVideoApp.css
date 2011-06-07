@@ -62,6 +62,10 @@ s|TextInput {
 	font-size: 18;
 	font-weight: bold;
 }
+.timeLabel {
+	font-size: 14;
+	font-weight: bold;
+}
 .searchResultLabel {
 	font-weight: bold;
 	font-style: italic;

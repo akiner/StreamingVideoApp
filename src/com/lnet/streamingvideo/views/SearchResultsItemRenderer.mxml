@@ -2,7 +2,8 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx"
-				autoDrawBackground="false" xmlns:components="com.lnet.streamingvideo.components.*">
+				xmlns:components="com.lnet.streamingvideo.components.*"
+				autoDrawBackground="false">
 	<s:states> 
 		<s:State name="default"/> 
 		<s:State name="selected"/>
@@ -23,6 +24,31 @@
 				starRating.rating = data.rating;
 				validateDisplayList();
 			}
+			
+			private function formatVideoTime(time:String):String {
+				var timeNum:Number = Number(time);
+				timeNum = Math.round(timeNum);
+				var minutes:int = timeNum / 60;
+				var seconds:int = timeNum % 60; 
+				var timeString:String;
+				var formattedMinutes:String;
+				var formattedSeconds:String;
+				
+				if(seconds < 10) {
+					formattedSeconds = "0" + seconds;
+				} else {
+					formattedSeconds = String(seconds);
+				}
+				
+				if(minutes < 10) {
+					formattedMinutes = "0" + minutes;
+				} else {
+					formattedMinutes = String(minutes);
+				}
+				
+				timeString = formattedMinutes + ":" + formattedSeconds;
+				return timeString;
+			}
 		]]>
 	</fx:Script>
 	
@@ -42,6 +68,14 @@
 						   height="94"
 						   backgroundAlpha.selected="1"
 						   backgroundAlpha="0">
+			<s:BorderContainer id="timeLabel"
+							   right="2" bottom="2"
+							   width="41" height="22"
+							   backgroundColor="0x000000"
+							   backgroundAlpha=".75"
+							   depth="5">
+				<s:Label id="timeText" text="{formatVideoTime(data.duration)}" styleName="timeLabel" paddingBottom="2" paddingLeft="2" paddingRight="2" paddingTop="2"/>
+			</s:BorderContainer>
 			<mx:Image id="thumbnail"
 					  width="120" height="90"
 					  source="{data.thumbnail}"

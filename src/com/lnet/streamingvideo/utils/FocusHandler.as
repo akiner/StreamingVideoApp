@@ -6,7 +6,9 @@ package com.lnet.streamingvideo.utils {
 	import com.lnet.streamingvideo.views.PlayerView;
 	import com.lnet.streamingvideo.views.SearchResultsView;
 	import com.lnet.streamingvideo.views.SearchView;
+	import com.lnet.utils.InteractiveSessionManager;
 	
+	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	
 	import mx.core.FlexGlobals;
@@ -33,6 +35,7 @@ package com.lnet.streamingvideo.utils {
 		}
 
 		private function handleKeyPress(event:KeyboardEvent):void {
+		MonsterDebugger.trace("FocusHandler::handleKeyPress","Handling Key Press");
 			preSearchState = FlexGlobals.topLevelApplication.currentState;
 			if (userIsTyping(event)) {
 				if (!isTyping){
@@ -83,8 +86,13 @@ package com.lnet.streamingvideo.utils {
 					handleCategorySelect();
 					break;
 				case "back":
-					if(browseView.browseViewModel.currentCategoryList[0].name == browseView.browseViewModel.allCategoryList[0].name) {
+//					if(browseView.browseViewModel.currentCategoryList[0].name == browseView.browseViewModel.allCategoryList[0].name) {
+					if(browseView.browseViewModel.currentCategoryList == browseView.browseViewModel.allCategoryList) {
+						MonsterDebugger.trace("FocusHandler::handleKeyPressInBrowseView","------------------------GO BACK TO DEFAULT CATEGORIES--------------------------");
 						browseView.browseViewModel.currentCategoryList = browseView.browseViewModel.defaultCategoryList;
+					} else {
+						MonsterDebugger.trace("FocusHandler::handleKeyPressInBrowseView","------------------------EXIT SERVICE--------------------------");
+						FlexGlobals.topLevelApplication.dispatchEvent(new Event(InteractiveSessionManager.SERVICE_COMPLETE));
 					}
 					break;
 				default:

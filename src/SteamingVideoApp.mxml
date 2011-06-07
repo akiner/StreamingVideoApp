@@ -4,8 +4,8 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   width="1280" height="720"
 			   backgroundColor="0x000000"
-			   creationComplete="init()" creationPolicy="all">
-	<fx:Style source="SteamingVideoApp.css"/>
+			   creationComplete="init()" applicationComplete="InteractiveSessionManager.init()" creationPolicy="all">
+	<fx:Style source="assets/SteamingVideoApp.css"/>
 	
 	<s:states>
 		<s:State name="default"/>
@@ -16,8 +16,8 @@
 	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-		<fx:XML id="DefaultCategories" source="DefaultCategories.xml" />
-		<fx:XML id="AllCategories" source="AllCategories.xml" />
+		<fx:XML id="DefaultCategories" source="assets/DefaultCategories.xml" />
+		<fx:XML id="AllCategories" source="assets/AllCategories.xml" />
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -32,6 +32,7 @@
 			import com.lnet.streamingvideo.views.PlayerView;
 			import com.lnet.streamingvideo.views.SearchResultsView;
 			import com.lnet.streamingvideo.views.SearchView;
+			import com.lnet.utils.InteractiveSessionManager;
 			
 			private var searchView:SearchView;
 			private var searchViewModel:SearchViewModel;

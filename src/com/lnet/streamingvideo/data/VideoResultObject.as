@@ -82,7 +82,6 @@ package com.lnet.streamingvideo.data {
 			return _duration;
 		}
 
-
 		public function get relatedVideoURL():String {
 			return _relatedVideoURL;
 		}

@@ -5,7 +5,10 @@
 		 width="100%" height="100%" top="90" focusRect="false">
 	<fx:Script>
 		<![CDATA[
+			import com.demonsters.debugger.MonsterDebugger;
 			import com.lnet.streamingvideo.viewmodels.SearchViewModel;
+			
+			private var previouslySelectedIndex:int = 0;
 			
 			private var _searchViewModel:SearchViewModel;
 			
@@ -16,6 +19,28 @@
 			[Bindable]
 			public function get searchViewModel():SearchViewModel {
 				return _searchViewModel;
+			}
+			
+			private function checkForResultPosition():void {
+				var currentlySelectedIndex:int = videoList.selectedIndex;
+				var numResults:int = searchViewModel.searchResultList.length;
+				
+				MonsterDebugger.trace("SearchResultsView::checkForResultPosition","currentlySelectedIndex::"+currentlySelectedIndex+", previouslySelectedIndex::"+previouslySelectedIndex+", numResults::"+numResults);
+				
+				if(currentlySelectedIndex > previouslySelectedIndex) {
+					if (currentlySelectedIndex >= (numResults - 4)) {
+						downArrow.visible = false;
+					} else {
+						downArrow.visible = true;
+					}
+				} else {
+					if (currentlySelectedIndex >= (numResults - 8)) {
+						downArrow.visible = false;
+					} else {
+						downArrow.visible = true;
+					}
+				}
+				previouslySelectedIndex = currentlySelectedIndex;
 			}
 		]]>
 	</fx:Script>
@@ -39,6 +64,7 @@
 				height="515"
 				borderVisible="false"
 				contentBackgroundAlpha="0"
+				change="checkForResultPosition()"
 				top="20"
 				itemRenderer="com.lnet.streamingvideo.views.SearchResultsItemRenderer">
 			<s:layout>
@@ -50,7 +76,7 @@
 			</s:layout>
 		</s:List>
 		<s:Group left="120" width="100%" textAlign="center">
-			<mx:Image source="@Embed('assets/arrowDown.png')" horizontalCenter="-23"/>
+			<mx:Image id="downArrow" source="@Embed('assets/arrowDown.png')" horizontalCenter="-23"/>
 		</s:Group>
 	</s:VGroup>
 </s:Group>

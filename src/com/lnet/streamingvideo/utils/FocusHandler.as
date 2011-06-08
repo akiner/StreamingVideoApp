@@ -172,7 +172,8 @@ package com.lnet.streamingvideo.utils {
 					if(!playerView.endOfVideoOverlay.visible) {
 						ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.PLAY_VIDEO));
 					} else {
-						ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.VIDEO_SELECTED, searchResultsView.videoList.selectedItem));
+						ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.VIDEO_SELECTED, playerView.playerViewModel.selectedVideo));
+//						ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.VIDEO_SELECTED, searchResultsView.videoList.selectedI/tem));
 					}
 					FlexGlobals.topLevelApplication.focusManager.setFocus(searchResultsView.videoList);//?
 					break;

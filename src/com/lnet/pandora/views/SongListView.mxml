@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:views="com.lnet.pandora.views.*"
+		  creationComplete="init()" xmlns:layouts="com.lnet.pandora.layouts.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.demonsters.debugger.MonsterDebugger;
+			import com.lnet.pandora.events.ApplicationEvent;
+			import com.lnet.pandora.events.ApplicationEventBus;
+			import com.lnet.pandora.viewmodels.SongListViewModel;
+			
+			import flashx.textLayout.container.ScrollPolicy;
+			
+			import mx.events.ScrollEvent;
+			
+			import spark.core.NavigationUnit;
+			
+			private var _songListViewModel:SongListViewModel;
+			
+			private function init():void {
+				ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.UPDATE_SELECTED_INDEX, updateSelectedIndex,
+					false, 0, true);
+			}
+
+			private function updateSelectedIndex(event:ApplicationEvent):void {
+				songList.selectedItem = event.data;
+				MonsterDebugger.trace("SongListView::updateSelectedIndex","Selected item updated");
+			}
+			
+			[Bindable]
+			public function get songListViewModel():SongListViewModel {
+				return _songListViewModel;
+			}
+
+			public function set songListViewModel(value:SongListViewModel):void {
+				_songListViewModel = value;
+			}
+
+			private function removeScrollbars():void {
+				songList.scroller.setStyle("horizontalScrollPolicy","ScrollPolicy.OFF");
+				songList.focusEnabled = false;
+			}
+
+		]]>
+	</fx:Script>
+	<s:List id="songList" maxWidth="1280" minWidth="596"
+			dataProvider="{songListViewModel.songList}"
+			itemRenderer="com.lnet.pandora.views.SongListItemRenderer"
+			borderAlpha="0" borderVisible="false"
+			contentBackgroundAlpha="0"
+			requireSelection="true"
+			creationComplete="removeScrollbars()"
+			right="117">
+		<s:layout>
+			<layouts:SongListLayout/>
+		</s:layout>
+	</s:List>
+</s:Group>

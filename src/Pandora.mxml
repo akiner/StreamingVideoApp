@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:views="com.lnet.pandora.views.*"
+			   minWidth="1280" minHeight="720"
+			   maxWidth="1280" maxHeight="720"
+			   applicationComplete="init()"
+			   width="1280" height="720"
+			   backgroundColor="0x000000">
+	<fx:Style source="Pandora.css"/>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.demonsters.debugger.MonsterDebugger;
+			import com.lnet.pandora.Session;
+			import com.lnet.pandora.events.ApplicationEvent;
+			import com.lnet.pandora.events.ApplicationEventBus;
+			import com.lnet.pandora.utils.FocusHandler;
+			import com.lnet.pandora.viewmodels.SongListViewModel;
+			import com.lnet.pandora.viewmodels.StationListViewModel;
+			
+			private var request:URLRequest;
+			private var loader:URLLoader;
+			private var soundInstance:Sound;
+			private var soundChannelInstance:SoundChannel;
+			private var focusHandler:FocusHandler;
+			private var songListViewModel:SongListViewModel;
+			private var stationListViewModel:StationListViewModel;
+			
+			public function init():void {
+				MonsterDebugger.initialize(this);
+				initLogin();
+				initFocus();
+				initViews();
+				ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.RESET_FOCUS, resetDefault, false, 0, true);
+				ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.LOGIN_ERROR, displayLoginError, false, 0, true);
+				Session.instance.beginSession();
+			}
+
+			private function displayLoginError(event:ApplicationEvent):void {
+				initLogin();
+				login.currentState = "error";
+			}
+			
+			private function initFocus():void {
+				focusHandler = new FocusHandler();
+				focusHandler.createNewStationView = createNewStation;
+				focusHandler.loginView = login;
+				focusHandler.songListView = songList;
+				focusHandler.stationListView = stationList;
+			}
+			
+			public function initLogin():void {
+				currentState = "login";
+				focusManager.setFocus(login.username);
+			}
+			
+			private function initViews():void {
+				songListViewModel = new SongListViewModel();
+				songList.songListViewModel = songListViewModel;
+				
+				stationListViewModel = new StationListViewModel();
+				stationList.stationListViewModel = stationListViewModel;
+			}
+			
+			public function resetDefault(e:Event):void {
+				currentState = "default";
+				focusManager.setFocus(stationList.stationList);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="default"/>
+		<s:State name="login"/>
+		<s:State name="createStation"/>
+	</s:states>
+	
+	<s:BorderContainer id="backgroundContainer"
+					   depth="0"
+					   width="1280" height="720"
+					   backgroundAlpha="1"
+					   backgroundImage="@Embed(source='assets/background_2.jpg')">
+		<views:LoginView id="login" width="1145" height="603" top="78" left="87" includeIn="login" />
+		<mx:Image id="logo" source="@Embed(source='assets/logo.png')"
+				  left="87" top="36"
+				  excludeFrom="login"/>
+		<views:StationListView id="stationList" depth="0"
+							   width="559" height="720"
+							   top="0" left="580"
+							   excludeFrom="login"/>
+		<views:SongListView id="songList" depth="1"
+							width="1280" height="326" top="207"
+							excludeFrom="login"/>
+		<views:CreateNewStationView id="createNewStation"
+									width="301" height="93"
+									left="68" top="610"
+									excludeFrom="login"/>
+	</s:BorderContainer>
+</s:Application>

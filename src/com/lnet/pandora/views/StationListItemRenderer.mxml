@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="false"
+				height="39" width="559">
+	
+	<s:states> 
+		<s:State name="default"/> 
+		<s:State name="selected"/>
+	</s:states>
+	
+	<s:Label text="{data.stationName}"
+			 styleName="whiteLabelLg"
+			 textAlign="right" maxWidth="559" maxDisplayedLines="1"
+			 width="559" paddingTop="5" paddingRight="5" height="39">
+		<s:filters>
+			<s:GlowFilter includeIn="selected"
+						  color="#2f97ff"
+						  alpha="0.5"
+						  blurX="11" blurY="11"
+						  inner="false"
+						  strength="6"
+						  quality="1"/>
+		</s:filters>
+	</s:Label>
+</s:ItemRenderer>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:layouts="com.lnet.pandora.layouts.*"
+		width="559" height="720">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.lnet.pandora.events.ApplicationEvent;
+			import com.lnet.pandora.events.ApplicationEventBus;
+			import com.lnet.pandora.viewmodels.StationListViewModel;
+			
+			import mx.collections.ArrayCollection;
+			private var _stationListViewModel:StationListViewModel;
+			
+//			private function init():void {
+//				ApplicationEventBus.getInstance().addEventListener(ApplicationEvent.STATION_SELECTED, selectStation, false, 0, true);
+//			}
+
+//			private function selectStation(event:ApplicationEvent):void {
+//				stationList.selectedItem = event.data;
+//			}
+			
+			[Bindable]
+			public function get stationListViewModel():StationListViewModel {
+				return _stationListViewModel;
+			}
+
+			public function set stationListViewModel(value:StationListViewModel):void {
+				_stationListViewModel = value;
+			}
+
+			private function selectNewStation():void {
+				ApplicationEventBus.getInstance().dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_STATION,
+					stationList.selectedItem));
+			}
+		]]>
+	</fx:Script>
+	
+	<s:BorderContainer id="linesOverlay"
+					   depth="2"
+					   width="559" height="720"
+					   backgroundAlpha="1"
+					   backgroundImage="@Embed(source='assets/stationLines_background.png')"/>
+	<s:List id="stationList"
+			width="559" height="180" top="36"
+			dataProvider="{stationListViewModel.stationList}"
+			itemRenderer="com.lnet.pandora.views.StationListItemRenderer"
+			borderAlpha="0" borderVisible="false"
+			contentBackgroundAlpha="0"
+			requireSelection="true"
+			change="selectNewStation()"
+			focusAlpha="0"
+			right="0">
+		<s:layout>
+			<layouts:StationListLayout gap="7"/>
+		</s:layout>
+	</s:List>
+</s:Group>

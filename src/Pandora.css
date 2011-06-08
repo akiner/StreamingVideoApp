@@ -1,0 +1,84 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+@font-face {
+	src:url("assets/fonts/arial.ttf");
+	font-family: arial;
+	embed-as-cff: true;
+}
+
+@font-face {
+	src:url("assets/fonts/arialbd.ttf");
+	font-family: arial;
+	font-weight: bold;
+	embed-as-cff: true;
+}
+
+@font-face {
+	src:url("assets/fonts/arialbi.ttf");
+	font-family: arial;
+	font-weight: bold;
+	font-style: italic;
+	embed-as-cff: true;
+}
+
+global {
+	content-background-color: #D9D9D9;
+	color: #ffffff;
+	font-size: 16;
+	vertical-align: middle;
+	font-family: arial;
+	font-weight: bold;
+}
+
+s|List, s|Scroller {
+	vertical-scroll-policy: off;
+	horizontal-scroll-policy: off;
+}
+
+s|BorderContainer {
+	background-alpha: 0;
+	border-visible: false;
+	background-color: #000000;
+}
+
+.searchLabel {
+	font-style: italic;
+	color: #728eb6;
+}
+
+.searchText {
+	color: #2d476d;
+	font-size: 18;
+}
+
+.loginText {
+	color: #8d8d8d;
+	font-size: 18;
+}
+
+.errorText {
+	color: #aa2121;
+	font-size: 14;
+}
+
+.albumArt {
+	border-color: #006600;
+	border-visible: true;
+	border-alpha: 1;
+	border-weight: 2px;
+}
+
+.whiteLabelLg {
+	font-size: 24;
+}
+
+.whiteLabelMed {
+	font-size: 22;
+}
+
+.blueLabelMed {
+	color: #85c1ff;
+	font-size: 22;
+}

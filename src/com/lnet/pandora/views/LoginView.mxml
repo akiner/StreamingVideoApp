@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="1145" height="603">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="default"/>
+		<s:State name="error"/>
+	</s:states>
+	
+	<s:BorderContainer id="container"
+					   backgroundImage="@Embed(source='assets/login.png')"
+					   backgroundAlpha="1"
+					   width="1145" height="603" tabEnabled="false">
+		<s:layout>
+			<s:VerticalLayout paddingTop="230" paddingLeft="343"/>
+		</s:layout>
+		<s:Label id="error"
+				 tabEnabled="false"
+				 width="480"
+				 styleName="errorText"
+				 visible="false"
+				 visible.error="true"
+				 textAlign="center"
+				 text="Invalid email or password. Please try again."/>
+		<s:VGroup gap="0" paddingTop="3" tabEnabled="false">
+			<s:TextInput id="username"
+						 tabIndex="1"
+						 text="amanda.kiner@lodgenet.com"
+						 skinClass="com.lnet.pandora.views.LoginTextInputItemRenderer"/>
+			<s:TextInput id="password"
+						 tabIndex="2"
+						 text="smile"
+						 displayAsPassword="true"
+						 skinClass="com.lnet.pandora.views.LoginTextInputItemRenderer"/>
+		</s:VGroup>
+	</s:BorderContainer>
+</s:Group>

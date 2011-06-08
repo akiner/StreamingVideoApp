@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="301" height="93"
+		 backgroundAlpha=".1"
+		 cornerRadius="20">
+	<s:layout>
+		<s:VerticalLayout paddingBottom="10" paddingTop="10"
+						  paddingLeft="15" paddingRight="10"/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			public static const SEARCH_DEFAULT_TEXT:String = "Begin Typing to Search";
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="default"/>
+		<s:State name="selected"/>
+	</s:states>
+	<s:Group>
+		<mx:Image source="@Embed(source='assets/createNewStation.png')" left="10" />
+	</s:Group>
+	<s:TextInput id="stationName"
+				 width="100%"
+				 text="{SEARCH_DEFAULT_TEXT}"
+				 focusAlpha="0"
+				 skinClass="com.lnet.pandora.views.CreateNewStationTextInputSkin"/>
+	<s:Label text="*Begin typing to search"
+			 styleName="searchLabel"
+			 alpha.default=".5"
+			 alpha.selected="1"
+			 width="100%"
+			 textAlign="right"/>
+</s:BorderContainer>

@@ -1,0 +1,57 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+@font-face {
+	src: url("HelviticaRegular.ttf");
+	font-family: HelviticaFont;
+	embed-as-cff: true;
+	font-anti-alias-type: advanced;
+}
+@font-face {
+	src: url("HelviticaBold.ttf");
+	font-family: HelviticaFont;
+	font-weight: bold;
+	embed-as-cff: true;
+	font-anti-alias-type: advanced;
+}
+@font-face {
+	src: url("HelviticaBoldItalic.ttf");
+	font-family: HelviticaFont;
+	font-weight: bold;
+	font-style: italic;
+	embed-as-cff: true;
+	font-anti-alias-type: advanced;
+}
+@font-face {
+	src: url("HelviticaItalic.ttf");
+	font-family: HelviticaFont;
+	font-style: italic;
+	embed-as-cff: true;
+	font-anti-alias-type: advanced;
+}
+
+@font-face {
+	src: url("HelviticaRegular.ttf");
+	fontFamily: HelviticaFontMX;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("HelviticaBold.ttf");
+	fontFamily: HelviticaFontMX;
+	fontWeight: bold;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("HelviticaBoldItalic.ttf");
+	fontFamily: HelviticaFontMX;
+	fontWeight: bold;
+	fontStyle: italic;
+	embedAsCFF: false;
+}
+@font-face {
+	src: url("HelviticaItalic.ttf");
+	fontFamily: HelviticaFontMX;
+	fontStyle: italic;
+	embedAsCFF: false;
+}
